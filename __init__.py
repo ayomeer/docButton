@@ -37,7 +37,7 @@ class MinimalPlugin:
 
         # Add a settings entry to the Plugins menu
         self.settings_action = QAction(
-            "docButton Einstellungen",
+            "Settings",
             self.iface.mainWindow()
         )
         self.iface.addPluginToMenu(
@@ -56,7 +56,7 @@ class MinimalPlugin:
 
         # create a dialog object 
         dialog = QDialog(self.iface.mainWindow())
-        dialog.setWindowTitle("docButton Einstellungen")
+        dialog.setWindowTitle("Settings")
 
         # let user select one of the connections for use with plugin
         combo = QComboBox(dialog)
@@ -98,7 +98,6 @@ class MinimalPlugin:
     def run(self):
         # create settings object to access plugin settings through
         settings = QSettings()
-        settings_key = "docButton/postgres_connection" # settings key for postgres connection
 
         # Get selected layer to read data source from 
         activeLayer: QgsVectorLayer = self.iface.activeLayer() 
@@ -119,7 +118,7 @@ class MinimalPlugin:
             uri: QgsDataSourceUri = QgsDataSourceUri(activeLayer.source())
         except:
             QgsMessageLog.logMessage(
-                "Unable to find selected layer's data source.""",
+                "Unable to find selected layer's data source.",
                 "docButton",
                 Qgis.MessageLevel.Info
             )
@@ -127,8 +126,23 @@ class MinimalPlugin:
 
         uri.setTable('t_ili2db_meta_attrs') # re-target uri to interlis metadata table holding model info    
 
-        # Configure data provider interface
+        # configure data provider interface
         metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
+        conn = settings.value("docButton/postgres_connection", type=str)
+
+        # check if setting was empty () 
+        if conn is None or conn == '':
+            # Warning ribbon
+            self.iface.messageBar().pushMessage(
+                "docButton",
+                """
+                No database connection setting found. Please configure which database connection to use in the plugin settings: Plugins > docButton."
+                """,
+                level=Qgis.MessageLevel.Warning,
+                duration=0
+            )
+            return
+
         connection = metadata.createConnection(
             settings.value("docButton/postgres_connection", type=str)
         ) 
