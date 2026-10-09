@@ -1,0 +1,10 @@
+[general]
+name=docButton
+description=Minimal Plugin for providing an entry point to documentation to the QGIS User Interface
+about=About this minimal plugin
+version=1.0
+qgisMinimumVersion=3.0
+author=Andreas Kuhn
+email=andreas.kuhn@gl.ch
+repository=none
+supportsQt6=True
