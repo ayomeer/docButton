@@ -2,7 +2,7 @@
 
 ## Usage
 
-Simply select a layer that belongs to an INTERLIS model and hit the `Modell Dokumentation` button. If the model has a documentation URL configured ([more information here](#database-model-prerequisites)), this will open the documentation page in the default internet browser.
+The plugin adds the ![alt text](doc/usage/button.png) button to your plugin toolbar. Simply select a layer that belongs to an INTERLIS model and click this button. If the model has a documentation URL configured ([more information here](#database-model-prerequisites)), this will open the documentation page in the default internet browser.
 
 ## Installation
 To install the plugin, follow these steps:
